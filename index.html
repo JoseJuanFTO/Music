@@ -128,12 +128,28 @@
 let songs = [];
 const container = document.getElementById("songs");
 
-fetch("songs.json")
+fetch("./songs.json")
   .then(res => res.json())
   .then(data => {
-    songs = data;
-    renderSongs(songs);
-  });
+    console.log("SONGS:", data);
+
+    const container = document.getElementById("songs");
+    container.innerHTML = "";
+
+    data.forEach(song => {
+      const div = document.createElement("div");
+      div.className = "song";
+
+      div.innerHTML = `
+        <h2>${song.titulo}</h2>
+        <p><strong>${song.autor}</strong></p>
+        <pre>${song.letra}</pre>
+      `;
+
+      container.appendChild(div);
+    });
+  })
+  .catch(err => console.error(err));
 
 function renderSongs(list) {
   container.innerHTML = "";
@@ -223,6 +239,7 @@ animate();
   
 </body>
 </html>
+
 
 
 
