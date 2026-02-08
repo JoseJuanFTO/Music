@@ -120,7 +120,7 @@
 <div class="overlay" id="overlay">
   <div class="overlay-content">
     <div class="close" onclick="closeSong()">✕</div>
-    <div id="songs"></div>
+    <div id="songContent"></div>
   </div>
 </div>
 
@@ -131,8 +131,8 @@ const container = document.getElementById("songs");
 fetch("./songs.json")
   .then(res => res.json())
   .then(data => {
-    songs = data;          // ✅ guardar canciones
-    renderSongs(songs);    // ✅ render único
+    songs = data;
+    renderSongs(songs);
   })
   .catch(err => console.error(err));
 
@@ -180,7 +180,7 @@ document.getElementById("search").addEventListener("input", e => {
   );
 });
 
-/* === CANVAS === */
+/* === CANVAS (NO TOCADO) === */
 const canvas = document.getElementById("bg");
 const ctx = canvas.getContext("2d");
 let w, h, dots = [];
@@ -219,13 +219,5 @@ function animate() {
 animate();
 </script>
 
-  
 </body>
 </html>
-
-
-
-
-
-
-
