@@ -125,16 +125,17 @@
 </div>
 
 <script>
+<script>
 let songs = [];
 const container = document.getElementById("songs");
 
 fetch("./songs.json")
   .then(res => res.json())
   .then(data => {
-    songs = data;
+    songs = data.songs;      // ✅ FIX CLAVE
     renderSongs(songs);
   })
-  .catch(err => console.error(err));
+  .catch(err => console.error("Error cargando JSON:", err));
 
 function renderSongs(list) {
   container.innerHTML = "";
@@ -153,9 +154,7 @@ function openSong(song) {
     <h2>${song.titulo}</h2>
     <p>
       <em>
-        ${Array.isArray(song.autor) ? song.autor.join(" & ") : song.autor}
-        · ${song.album}
-        · ${Array.isArray(song.genero) ? song.genero.join(", ") : song.genero}
+        ${song.autor.join(" & ")} · ${song.album} · ${song.genero.join(", ")}
       </em>
     </p>
     <p>${song.letra.replace(/\n/g,"<br>")}</p>
@@ -174,11 +173,12 @@ document.getElementById("search").addEventListener("input", e => {
       s.titulo.toLowerCase().includes(q) ||
       s.letra.toLowerCase().includes(q) ||
       s.album.toLowerCase().includes(q) ||
-      (Array.isArray(s.autor) ? s.autor.join(" ") : s.autor).toLowerCase().includes(q) ||
-      (Array.isArray(s.genero) ? s.genero.join(" ") : s.genero).toLowerCase().includes(q)
+      s.autor.join(" ").toLowerCase().includes(q) ||
+      s.genero.join(" ").toLowerCase().includes(q)
     )
   );
 });
+
 
 /* === CANVAS (NO TOCADO) === */
 const canvas = document.getElementById("bg");
@@ -221,3 +221,4 @@ animate();
 
 </body>
 </html>
+
