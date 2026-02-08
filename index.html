@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>JoseJuanFTO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+  body {
+    margin: 0;
+    font-family: 'Georgia', serif;
+    background: #0f0f0f;
+    color: #f2f2f2;
+    overflow-x: hidden;
+  }
+
+  canvas {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+  }
+
+  header {
+    text-align: center;
+    padding: 40px 20px 20px;
+    font-size: 2.2rem;
+    letter-spacing: 2px;
+  }
+
+  .intro {
+    max-width: 700px;
+    margin: auto;
+    text-align: center;
+    padding: 10px 20px 30px;
+    opacity: 0.85;
+  }
+
+  .search {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .search input {
+    width: 80%;
+    max-width: 400px;
+    padding: 12px;
+    background: #1a1a1a;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+  }
+
+  .songs {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+  }
+
+  .song-card {
+    padding: 20px;
+    background: #1a1a1a;
+    cursor: pointer;
+    transition: transform .3s;
+  }
+
+  .song-card:hover {
+    transform: scale(1.05);
+  }
+
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.92);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    padding: 20px;
+  }
+
+  .overlay-content {
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: #121212;
+    padding: 30px;
+    line-height: 1.8;
+    position: relative;
+  }
+
+  .close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    cursor: pointer;
+    font-size: 1.5rem;
+  }
+</style>
+</head>
+
+<body>
+
+<canvas id="bg"></canvas>
+
+<header>JoseJuanFTO</header>
+
+<section class="intro">
+  Letras íntimas, vulnerables y honestas.
+</section>
+
+<section class="search">
+  <input type="text" id="search" placeholder="Buscar por título o palabra…">
+</section>
+
+<section class="songs" id="songs"></section>
+
+<div class="overlay" id="overlay">
+  <div class="overlay-content">
+    <div class="close" onclick="closeSong()">✕</div>
+    <div id="songContent"></div>
+  </div>
+</div>
+
+<script>
+let songs = [];
+const container = document.getElementById("songs");
+
+fetch("songs.json")
+  .then(res => res.json())
+  .then(data => {
+    songs = data;
+    renderSongs(songs);
+  });
+
+function renderSongs(list) {
+  container.innerHTML = "";
+  list.forEach(song => {
+    const div = document.createElement("div");
+    div.className = "song-card";
+    div.innerHTML = `<h3>${song.title}</h3><p>${song.preview}</p>`;
+    div.onclick = () => openSong(song);
+    container.appendChild(div);
+  });
+}
+
+function openSong(song) {
+  document.getElementById("songContent").innerHTML = `
+    <h2>${song.title}</h2>
+    <p><em>${song.meta}</em></p>
+    <p>${song.lyrics.replace(/\n/g,"<br>")}</p>
+  `;
+  document.getElementById("overlay").style.display = "flex";
+}
+
+function closeSong() {
+  document.getElementById("overlay").style.display = "none";
+}
+
+document.getElementById("search").addEventListener("input", e => {
+  const q = e.target.value.toLowerCase();
+  renderSongs(
+    songs.filter(s =>
+      s.title.toLowerCase().includes(q) ||
+      s.lyrics.toLowerCase().includes(q)
+    )
+  );
+});
+</script>
+
+
+</body>
+</html>
