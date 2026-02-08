@@ -131,7 +131,7 @@ const container = document.getElementById("songs");
 fetch("songs.json")
   .then(res => res.json())
   .then(data => {
-    songs = data.songs;
+    songs = data;
     renderSongs(songs);
   })
   .catch(err => console.error("Error cargando JSON:", err));
@@ -216,6 +216,7 @@ animate();
 
 </body>
 </html>
+
 
 
 
