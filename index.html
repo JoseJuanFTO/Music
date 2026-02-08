@@ -128,10 +128,10 @@
 let songs = [];
 const container = document.getElementById("songs");
 
-fetch("./songs.json")
+fetch("songs.json")
   .then(res => res.json())
   .then(data => {
-    songs = data.songs;      // ✅ FIX CLAVE
+    songs = data.songs;
     renderSongs(songs);
   })
   .catch(err => console.error("Error cargando JSON:", err));
@@ -139,7 +139,7 @@ fetch("./songs.json")
 function renderSongs(list) {
   container.innerHTML = "";
   list.forEach(song => {
-    const preview = song.letra.split("\n")[0];
+    const preview = song.letra ? song.letra.split("\n")[0] : "";
     const div = document.createElement("div");
     div.className = "song-card";
     div.innerHTML = `<h3>${song.titulo}</h3><p>${preview}</p>`;
@@ -151,11 +151,7 @@ function renderSongs(list) {
 function openSong(song) {
   document.getElementById("songContent").innerHTML = `
     <h2>${song.titulo}</h2>
-    <p>
-      <em>
-        ${song.autor.join(" & ")} · ${song.album} · ${song.genero.join(", ")}
-      </em>
-    </p>
+    <p><em>${song.autor.join(" & ")} · ${song.album} · ${song.genero.join(", ")}</em></p>
     <p>${song.letra.replace(/\n/g,"<br>")}</p>
   `;
   document.getElementById("overlay").style.display = "flex";
@@ -165,6 +161,7 @@ function closeSong() {
   document.getElementById("overlay").style.display = "none";
 }
 
+/* === SEARCH === */
 document.getElementById("search").addEventListener("input", e => {
   const q = e.target.value.toLowerCase();
   renderSongs(
@@ -178,8 +175,7 @@ document.getElementById("search").addEventListener("input", e => {
   );
 });
 
-
-/* === CANVAS (NO TOCADO) === */
+/* === CANVAS === */
 const canvas = document.getElementById("bg");
 const ctx = canvas.getContext("2d");
 let w, h, dots = [];
@@ -220,5 +216,6 @@ animate();
 
 </body>
 </html>
+
 
 
