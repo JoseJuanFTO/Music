@@ -112,7 +112,7 @@
 </section>
 
 <section class="search">
-  <input type="text" id="search" placeholder="Buscar por título o palabra…">
+  <input type="text" id="search" placeholder="Buscar por título, autor, álbum o palabra…">
 </section>
 
 <section class="songs" id="songs"></section>
@@ -138,9 +138,10 @@ fetch("songs.json")
 function renderSongs(list) {
   container.innerHTML = "";
   list.forEach(song => {
+    const preview = song.letra.split("\n")[0];
     const div = document.createElement("div");
     div.className = "song-card";
-    div.innerHTML = `<h3>${song.title}</h3><p>${song.preview}</p>`;
+    div.innerHTML = `<h3>${song.titulo}</h3><p>${preview}</p>`;
     div.onclick = () => openSong(song);
     container.appendChild(div);
   });
@@ -148,9 +149,15 @@ function renderSongs(list) {
 
 function openSong(song) {
   document.getElementById("songContent").innerHTML = `
-    <h2>${song.title}</h2>
-    <p><em>${song.meta}</em></p>
-    <p>${song.lyrics.replace(/\n/g,"<br>")}</p>
+    <h2>${song.titulo}</h2>
+    <p>
+      <em>
+        ${song.autor.join(" & ")} · 
+        ${song.album} · 
+        ${song.genero.join(", ")}
+      </em>
+    </p>
+    <p>${song.letra.replace(/\n/g,"<br>")}</p>
   `;
   document.getElementById("overlay").style.display = "flex";
 }
@@ -163,8 +170,11 @@ document.getElementById("search").addEventListener("input", e => {
   const q = e.target.value.toLowerCase();
   renderSongs(
     songs.filter(s =>
-      s.title.toLowerCase().includes(q) ||
-      s.lyrics.toLowerCase().includes(q)
+      s.titulo.toLowerCase().includes(q) ||
+      s.letra.toLowerCase().includes(q) ||
+      s.album.toLowerCase().includes(q) ||
+      s.autor.join(" ").toLowerCase().includes(q) ||
+      s.genero.join(" ").toLowerCase().includes(q)
     )
   );
 });
@@ -209,6 +219,6 @@ function animate() {
 animate();
 </script>
 
-
 </body>
 </html>
+
