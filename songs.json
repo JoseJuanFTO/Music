@@ -1,9 +1,12 @@
 [
   {
     "id": 1,
-    "title": "Por Ti",
-    "meta": "JoseJuanFTO & Taylor Morgan · Orígenes",
+    "titulo": "Por Ti",
+    "autor": ["JoseJuanFTO", "Taylor Morgan"],
+    "album": "Orígenes",
+    "genero": ["Pop", "Balada"],
     "preview": "Me hago daño por ti, nada más…",
     "lyrics": "Caigo, caigo hasta el suelo\nme arrastras sin querer\nyo no hago ruido, me quedo quieto\namo este dolor, me deja ser\n\nEs un error que no puedo arreglar\nme gustan las mariposas al volar\nme prometí que esta era la última vez\npero vuelvo a caer\n\nEs un error que no puedo cambiar\nresbalo solo bajo la luna al pasar\ncuando sé la verdad\nme hago daño por ti, nada más\n\nEn el suelo estoy\nsé la verdad, sé la verdad\naquí estoy\ntocando fondo hoy\nsé la verdad…\n\nLa da da da dada\nLa dada da da\nLada da da dum tum tum\nLa da da da dada\nLa dada da da\nLada da da dum tum tum\n\nTiemblo cuando hablas así\ny luego me dejas atrás\nno sé qué fue lo que viste en mí\nsoy rosa con espinas, me cortaste igual\n\nEstas cosas dentro de mí\nmariposas, vuelen hoy\nestas cosas dentro de mí\nmariposas… ya me voy"
   }
 ]
+
