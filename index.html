@@ -131,23 +131,8 @@ const container = document.getElementById("songs");
 fetch("./songs.json")
   .then(res => res.json())
   .then(data => {
-    console.log("SONGS:", data);
-
-    const container = document.getElementById("songs");
-    container.innerHTML = "";
-
-    data.forEach(song => {
-      const div = document.createElement("div");
-      div.className = "song";
-
-      div.innerHTML = `
-        <h2>${song.titulo}</h2>
-        <p><strong>${song.autor}</strong></p>
-        <pre>${song.letra}</pre>
-      `;
-
-      container.appendChild(div);
-    });
+    songs = data;          // ✅ guardar canciones
+    renderSongs(songs);    // ✅ render único
   })
   .catch(err => console.error(err));
 
@@ -168,9 +153,9 @@ function openSong(song) {
     <h2>${song.titulo}</h2>
     <p>
       <em>
-        ${song.autor.join(" & ")} · 
-        ${song.album} · 
-        ${song.genero.join(", ")}
+        ${Array.isArray(song.autor) ? song.autor.join(" & ") : song.autor}
+        · ${song.album}
+        · ${Array.isArray(song.genero) ? song.genero.join(", ") : song.genero}
       </em>
     </p>
     <p>${song.letra.replace(/\n/g,"<br>")}</p>
@@ -189,12 +174,11 @@ document.getElementById("search").addEventListener("input", e => {
       s.titulo.toLowerCase().includes(q) ||
       s.letra.toLowerCase().includes(q) ||
       s.album.toLowerCase().includes(q) ||
-      s.autor.join(" ").toLowerCase().includes(q) ||
-      s.genero.join(" ").toLowerCase().includes(q)
+      (Array.isArray(s.autor) ? s.autor.join(" ") : s.autor).toLowerCase().includes(q) ||
+      (Array.isArray(s.genero) ? s.genero.join(" ") : s.genero).toLowerCase().includes(q)
     )
   );
 });
-
 
 /* === CANVAS === */
 const canvas = document.getElementById("bg");
@@ -239,6 +223,7 @@ animate();
   
 </body>
 </html>
+
 
 
 
